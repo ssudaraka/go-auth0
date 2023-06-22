@@ -291,3 +291,13 @@ func Stringify(v interface{}) string {
 	}
 	return string(b)
 }
+
+// Sort search results. Order can be set to 1 for ascending and -1 for descending
+func Sort(field string, order int) RequestOption {
+	return newRequestOption(func(r *http.Request) {
+		// todo: add order in the correct way
+		q := r.URL.Query()
+		q.Set("sort", field + ":" + strconv.Itoa(order))
+		r.URL.RawQuery = q.Encode()
+	})
+}
